@@ -22,6 +22,7 @@ export async function getStaticProps() {
     let filteredTemplates = getFilteredTemplates(templates)
 
     let languages = getLanguages(templates)
+
     let template = getTemplateBySidandLanguage(filteredTemplates[0].sid, 'en', templates)
 
     let channels = ['sms', 'voice', 'email']

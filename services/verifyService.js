@@ -1,6 +1,7 @@
 require('dotenv').config()
 const twilio = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
 const languages = require('./languages.json')
+const locales = require('./languages.json')
 
 
 const getTemplates = async () => {
@@ -59,6 +60,17 @@ const getTemplateBySidandLanguage = (sid, language, templates) => {
 
 }
 
+const lookupLocaleName = (key) => {
+
+  let locale = locales.filter((locale) => {
+    if(locale.code == key){
+      return JSON.stringify(locale.name)
+    }
+  })
+
+  return locale[0].name
+}
+
 const getLanguages = (templates) => {
 
   // TODO to set description of language for each key locale
@@ -69,7 +81,7 @@ const getLanguages = (templates) => {
 
   if(templates.length > 0){
     for(var key of Object.keys(templates[0].translations)){
-      languages.push(key)
+      languages.push({key: key, name: lookupLocaleName(key)})
     }
   }
   

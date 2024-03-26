@@ -11,7 +11,8 @@ import Head from 'next/head';
 import Layout, { siteTitle } from '../../components/layout';
 import utilStyles from '../../styles/utils.module.css';
 import Link from 'next/link';
-import redirect from 'next/navigation'
+// import redirect from 'next/navigation'
+import { useRouter } from "next/navigation"
 
 import { useState } from 'react'
  
@@ -47,33 +48,19 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
 
     const [isLoading, setIsloading] = useState(false)
 
+    const router = useRouter()
+
     async function onSubmit(event){
         event.preventDefault()
         setIsloading(true)
 
-        try {
-            const formData = new FormData(event.currentTarget)
+        console.log(selectedTemplate)
 
-            const response = await fetch('/api/submit', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/html',
-                    'Content-Type': 'application/html'
-                },
-                body: formData,
-            })
+        // get form details
 
-            let responseClone = await response.clone()
-            const data = await response.json()
+        // validate form data
 
-        }catch(e){
-            console.error("Error parsing JSON from response ", e)
-            
-        }finally{
-            setIsloading(false)
-            redirect('/verify/otp')
-        }
-
+        router.push('/')
         
     }
 
@@ -86,7 +73,7 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
                     <ViewTemplate template={selectedTemplate}/>
                     <ListChannels channels={theseChannels}/>
                     <InputChannels/>
-                    <SubmitButton/>
+                    <SubmitButton isLoading={isLoading}/>
                 </form>
             </VerifyContextProvider>
         </div>

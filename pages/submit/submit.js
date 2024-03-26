@@ -1,19 +1,16 @@
 import { VerifyContext } from '../../contexts/VerifyContext'
 
-export default function SubmitButton () {
+export default function SubmitButton (isLoading) {
+
+    console.log(isLoading.isLoading)
+
     return (
         <VerifyContext.Consumer>{(context) => {
-         
-            let isValid = true
-            let button
-            if(isValid){
-                button = <button className="btn btn-primary" type="submit">Submit</button>
-            }else{
-                button = <button className="btn btn-primary" type="submit" disabled>Submit</button>
-            }
+        
             return (
                 <div>
-                    {button}
+                    {isLoading.isLoading && <button className="btn btn-primary" type="submit" disabled>Sending...</button>}
+                    {!isLoading.isLoading && <button className="btn btn-primary" type="submit" >Submit</button>}
                 </div>
             )
         }}

@@ -14,8 +14,6 @@ export async function getStaticProps() {
 
 export default function ListLanguages({ languages, templates }) {
 
-    console.log("LIST LANGUAGES " + JSON.stringify(languages))
-
     return (
         <VerifyContext.Consumer>{(context) => {
             const { setTemplate } = context
@@ -24,7 +22,7 @@ export default function ListLanguages({ languages, templates }) {
                 <span name="input-group-text">Choose Language</span>
                 <select className="form-select" onChange={(event) => {setTemplate(event, templates)}}>
                     {languages.map((language) =>(
-                        <option key={language.key} value={language.name}>
+                        <option key={language.key} value={language.key}>
                         {language.name || ''}
                         </option>
                     ))}

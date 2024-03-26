@@ -64,11 +64,7 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
             })
 
             let responseClone = await response.clone()
-            console.log(responseClone.text())
             const data = await response.json()
-
-            console.log("DATA " + data)
-
 
         }catch(e){
             console.error("Error parsing JSON from response ", e)

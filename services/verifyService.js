@@ -64,18 +64,14 @@ const lookupLocaleName = (key) => {
 
   let locale = locales.filter((locale) => {
     if(locale.code == key){
-      return JSON.stringify(locale.name)
+      return JSON.stringify(locale)
     }
   })
 
-  return locale[0].name
+  return locale[0].name + ' - ' + locale[0].native
 }
 
 const getLanguages = (templates) => {
-
-  // TODO to set description of language for each key locale
-  // let language = languages.filter((language) => language.code == 'en')
-  // console.log(language)
  
   let languages = []
 

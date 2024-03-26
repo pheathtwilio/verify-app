@@ -20,9 +20,6 @@ class VerifyContextProvider extends Component {
     }
     // TODO: This only works with one Template set right now
     setTemplate = (language, templates) => {
-
-        console.log(language)
-        console.log(language.target.value)
         this.setLanguage(language)
         if(templates[0].translations.hasOwnProperty(language.target.value)){
             this.setState({selectedTemplate: {text: templates[0].translations[language.target.value].text}})

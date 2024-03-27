@@ -2,8 +2,6 @@ import { VerifyContext } from '../../contexts/VerifyContext'
 
 export default function SubmitButton (isLoading) {
 
-    console.log(isLoading.isLoading)
-
     return (
         <VerifyContext.Consumer>{(context) => {
         

@@ -6,6 +6,8 @@ import SubmitButton from '../submit/submit'
 import ListLanguages from '../languages/list'
 import ListTemplates from '../templates/list'
 import ViewTemplate from '../templates/view'
+import { z } from 'zod'
+import validator from 'validator'
 
 import Head from 'next/head';
 import Layout, { siteTitle } from '../../components/layout';
@@ -47,20 +49,56 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
     const [selectedTemplate, setSelectedTemplate] = useState(template)
 
     const [isLoading, setIsloading] = useState(false)
-
+ 
     const router = useRouter()
 
-    async function onSubmit(event){
-        event.preventDefault()
+    const telephoneSchema = z.object({
+        number: z.string().refine(validator.isMobilePhone)
+    })
+
+    const emailSchema = z.object({
+        email: z.string().min(1).email("This is not a valid email"),
+    })
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
         setIsloading(true)
 
-        console.log(selectedTemplate)
+        let language = e.target[0].value
+        let templateSetSID = e.target[1].value
+        let templateSID = e.target[2].value
+        let channelType = e.target[3].value
+        let target = e.target[4].value
 
-        // get form details
+        let errors = []
 
-        // validate form data
+        if(channelType == 'sms' || channelType == 'voice'){
+            if(!validator.isMobilePhone(target, 'en-US')){
+                errors.push("The number is not a valid US phone number")
+            }
+        }
+        if(channelType == 'email'){
 
-        router.push('/')
+            let validEmail = ''
+
+            try{
+                validEmail = emailSchema.safeParse({email: target})
+
+                if(!validEmail.success){
+                    errors.push(JSON.parse(validEmail.error.message)[1].message)
+                }
+
+            }catch(error){
+                console.error(error)
+            }
+
+        }
+        
+        if(errors.length < 1){
+            router.push('/verify/otp')
+        }
+
+        // otherwise display errors
         
     }
 

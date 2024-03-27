@@ -86,5 +86,20 @@ const getLanguages = (templates) => {
   return filteredLanguages
 }
 
+const sendToken = async (payload) =>{
 
-module.exports = {getTemplates, getFilteredTemplates, getTemplateBySidandLanguage, getLanguages}
+  let { channelType, target } = payload
+
+  let verification
+  try{
+    verification = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID).verifications.create({to: target, channel: channelType})
+    console.log(verification)
+  }catch(error){
+    console.error(error)
+  }
+
+  return verification
+}
+
+
+module.exports = {getTemplates, getFilteredTemplates, getTemplateBySidandLanguage, getLanguages, sendToken }

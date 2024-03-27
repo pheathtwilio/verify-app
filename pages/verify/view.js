@@ -95,11 +95,33 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
         }
         
         if(errors.length < 1){
-            router.push('/verify/otp')
+
+            const res = await fetch("/api/submit", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify( ({
+                    language: language,
+                    templateSetSID: templateSetSID,
+                    templateSID: templateSID,
+                    channelType: channelType,
+                    target: target
+                }))
+            })
+
+            const data = await res.json()
+
+            router.push({
+                pathname: '/verify/otp',
+                query: { target: target}
+            })
+        }else{
+            // otherwise display errors
+
+            
         }
 
-        // otherwise display errors
-        
     }
 
     return (

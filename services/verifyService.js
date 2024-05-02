@@ -103,16 +103,23 @@ const sendToken = async (payload) =>{
 
 const checkVerification = async (payload) => {
 
-  let {target, code} = payload
+  let {code, target} = payload
 
   let verificationCheck
   try{
-    verificationCheck = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID).verificationChecks.create({to: target, code: code})
+    verificationCheck = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID)
+      .verificationChecks
+      .create({to: target, code: code})
+
+
+
+    return verificationCheck
+
   }catch(e){
     console.error(e)
   }
 
-  return verificationCheck.status
+  return false
 
 }
 

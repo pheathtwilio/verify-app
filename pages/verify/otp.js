@@ -8,11 +8,14 @@ import utilStyles from '../../styles/utils.module.css';
 import Link from 'next/link';
 
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from "next/navigation"
 
 export default function otp () {
 
     const searchParams = useSearchParams()
     const target = searchParams.get('target')
+
+    const router = useRouter()
         
     const onSubmit = async (e) => {
 
@@ -23,7 +26,30 @@ export default function otp () {
         for(var i=0; i<(e.target.length - 1); i++){
             code += e.target[i].value
         }
-        
+
+        const res = await fetch("/api/submitVerificationCheck", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify( ({
+                code: code,
+                target: target
+            }))
+        })
+
+        const data = await res.json()
+
+        console.log("DATA " + JSON.stringify(data))
+
+        if(data.message.status == 'approved'){
+            // route to success page
+            router.push({
+                pathname: '/success/view'
+            })
+        }else{
+            // clear screen add error message
+        }
 
     }
 

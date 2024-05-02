@@ -96,7 +96,7 @@ export default function ViewVerify ({ channels, filteredTemplates, languages, te
         
         if(errors.length < 1){
 
-            const res = await fetch("/api/submit", {
+            const res = await fetch("/api/submitVerification", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 

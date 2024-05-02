@@ -101,5 +101,20 @@ const sendToken = async (payload) =>{
   return verification
 }
 
+const checkVerification = async (payload) => {
 
-module.exports = {getTemplates, getFilteredTemplates, getTemplateBySidandLanguage, getLanguages, sendToken }
+  let {target, code} = payload
+
+  let verificationCheck
+  try{
+    verificationCheck = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID).verificationChecks.create({to: target, code: code})
+  }catch(e){
+    console.error(e)
+  }
+
+  return verificationCheck.status
+
+}
+
+
+module.exports = {getTemplates, getFilteredTemplates, getTemplateBySidandLanguage, getLanguages, sendToken, checkVerification }

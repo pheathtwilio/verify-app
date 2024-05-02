@@ -88,11 +88,11 @@ const getLanguages = (templates) => {
 
 const sendToken = async (payload) =>{
 
-  let { channelType, target } = payload
+  let { channelType, language, target } = payload
 
   let verification
   try{
-    verification = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID).verifications.create({to: target, channel: channelType})
+    verification = await twilio.verify.v2.services(process.env.VERIFY_SERVICE_SID).verifications.create({locale: language, to: target, channel: channelType})
     console.log(verification)
   }catch(error){
     console.error(error)
